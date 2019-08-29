@@ -3,9 +3,8 @@ package com.diadejava.api.application
 import com.diadejava.api.controller.UserController
 import com.diadejava.api.koin.userModule
 import com.diadejava.api.repository.persistence.UserTable
-import com.fasterxml.jackson.databind.ObjectMapper
-import io.javalin.Javalin;
-import io.javalin.apibuilder.ApiBuilder.*
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import io.javalin.Javalin
 import io.javalin.plugin.json.JavalinJackson
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -23,18 +22,15 @@ class ApiApplication : KoinComponent {
     fun startApplication(): Javalin {
         val app = Javalin.create { config ->
             config.defaultContentType = "application/json"
-            JavalinJackson.configure(ObjectMapper())
+            JavalinJackson.configure(jacksonObjectMapper())
         }.apply {
             exception(Exception::class.java) { e, ctx -> e.printStackTrace() }
             error(404) { ctx -> ctx.json("not found") }
-        }.start(7000)
-
-        app.routes {
-            get("/users") { ctx ->
-                ctx.json(userController.createUser())
+            routes{
+                post("users", userController::createUser)
+                get("users", userController::getUsers)
             }
-        }
-
+        }.start(7000)
         return app
     }
 
@@ -48,14 +44,10 @@ class ApiApplication : KoinComponent {
     }
 }
 
-
-
 fun main() {
     startKoin {
         modules(userModule)
     }
-
     ApiApplication().connectDatabase()
-
     ApiApplication().startApplication()
 }
