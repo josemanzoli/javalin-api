@@ -1,13 +1,29 @@
 package com.diadejava.api.controller
 
 import com.diadejava.api.service.UserService
+import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
+import org.slf4j.LoggerFactory
 
 class UserController(private val userService: UserService) {
 
+    private val logger = LoggerFactory.getLogger(UserController::class.java)
+
     fun createUser(context: Context) {
-        val userRequest = context.body<UserRequest>()
-        context.json(userService.createUser(userRequest.name))
+        try{
+            val userRequest = context.body<UserRequest>()
+
+            logger.info("About to insert user with name:${userRequest.name}")
+
+            val user = userService.createUser(userRequest.name)
+
+            logger.info("User created with id: ${user.id}")
+
+            context.json(user)
+        } catch (e: BadRequestResponse) {
+            logger.error("Error trying to create user. Exception: $e")
+            throw e;
+        }
     }
 
     fun getUsers(context: Context) {
