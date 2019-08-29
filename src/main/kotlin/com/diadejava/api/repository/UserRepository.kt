@@ -1,0 +1,16 @@
+package com.diadejava.api.repository
+
+import com.diadejava.api.model.User
+import com.diadejava.api.repository.persistence.UserTable
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.transactions.transaction
+
+class UserRepository {
+
+    fun create(user: User) : String {
+        return transaction { UserTable.insert {
+            it[id] = user.id.toString()
+            it[name] = user.name
+        } get UserTable.id }
+    }
+}

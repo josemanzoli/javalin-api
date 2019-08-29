@@ -1,10 +1,10 @@
 package com.diadejava.api.controller
 
-import com.diadejava.api.model.User
+import com.diadejava.api.service.UserService
 
-class UserController {
+class UserController(private val userService: UserService) {
 
-    fun getUser(): User {
-        return User("Hello World")
+    fun createUser(): String {
+        return userService.createUser("test")
     }
 }
