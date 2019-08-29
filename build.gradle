@@ -19,6 +19,7 @@ dependencies {
     compile 'org.koin:koin-core:2.0.1'
     compile 'org.jetbrains.exposed:exposed:0.17.2'
     compile 'io.azam.ulidj:ulidj:1.0.0'
+    compile 'com.h2database:h2:1.4.199'
 }
 
 compileKotlin {

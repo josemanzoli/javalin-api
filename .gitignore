@@ -2,3 +2,6 @@ build
 .DS_Store
 .idea/.name
 .idea/workspace.xml
+out/
+.gradle/buildOutputCleanup/
+.gradle/4.10.3/fileHashes/
