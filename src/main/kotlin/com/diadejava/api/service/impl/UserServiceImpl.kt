@@ -4,13 +4,13 @@ import com.diadejava.api.model.User
 import com.diadejava.api.repository.UserRepository
 import com.diadejava.api.service.UserService
 import io.azam.ulidj.ULID
-import org.slf4j.LoggerFactory
+import org.apache.logging.log4j.LogManager
 import java.lang.Exception
 
 
 class UserServiceImpl(private val userRepository: UserRepository) : UserService {
 
-    private val logger = LoggerFactory.getLogger(UserServiceImpl::class.java)
+    private val logger = LogManager.getLogger(UserServiceImpl::class.java)
 
     override fun createUser(name: String): User {
         val user = User(id = ULID.random(), name = name)

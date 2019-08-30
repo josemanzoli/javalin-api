@@ -3,11 +3,11 @@ package com.diadejava.api.controller
 import com.diadejava.api.service.UserService
 import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
-import org.slf4j.LoggerFactory
+import org.apache.logging.log4j.LogManager
 
 class UserController(private val userService: UserService) {
 
-    private val logger = LoggerFactory.getLogger(UserController::class.java)
+    private val logger = LogManager.getLogger(UserController::class.java)
 
     fun createUser(context: Context) {
         try{
